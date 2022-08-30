@@ -12,13 +12,13 @@ console_log = "0.2.0"
 log = "0.4.17"
 tracing = "0.1.36"
 tracing-subscriber = { version = "0.3.15", features = ["time"] }
-tracing-web = "0.1.2"
 wgpu = "0.13.1"
 winit = "0.27.2"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 console_error_panic_hook = "0.1.6"
 console_log = "0.2.0"
+tracing-wasm = "0.2.1"
 wgpu = { version = "0.13.1", features = ["webgl"] }
 wasm-bindgen = "0.2"
 wasm-bindgen-futures = "0.4.30"

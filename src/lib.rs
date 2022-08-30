@@ -1,12 +1,4 @@
-// use tracing::info;
-// #[cfg(target_arch = "wasm32")]
-// use tracing_subscriber::fmt::format::Pretty;
-// #[cfg(target_arch = "wasm32")]
-// use tracing_subscriber::fmt::time::UtcTime;
-// #[cfg(target_arch = "wasm32")]
-// use tracing_subscriber::prelude::*;
-// #[cfg(target_arch = "wasm32")]
-// use tracing_web::{performance_layer, MakeConsoleWriter};
+use tracing::{error, info, warn};
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
 use winit::{
@@ -19,22 +11,23 @@ use winit::{
 pub fn run() {
     cfg_if::cfg_if! {
         if #[cfg(target_arch = "wasm32")] {
-            std::panic::set_hook(Box::new(console_error_panic_hook::hook));
-            console_log::init_with_level(log::Level::Warn).expect("Couldn't initialize logger");
-
-             } else {
-                // tracing_subscriber::fmt::init()
+            console_error_panic_hook::set_once();
+            tracing_wasm::set_as_global_default();
+        } else {
+            tracing_subscriber::fmt::init()
         }
     }
-
+    info!("info!!!");
+    warn!("warning");
+    error!("eeeeeek");
     let event_loop = EventLoop::new();
     let window =
         WindowBuilder::new().build(&event_loop).unwrap();
 
     #[cfg(target_arch = "wasm32")]
     {
-        // Winit prevents sizing with CSS, so we have to set
-        // the size manually when on web.
+        // Winit prevents sizing with CSS, so we have to
+        // set the size manually when on web.
         use winit::dpi::PhysicalSize;
         window.set_inner_size(PhysicalSize::new(450, 400));
 

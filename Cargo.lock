@@ -657,7 +657,7 @@ dependencies = [
  "log",
  "tracing",
  "tracing-subscriber",
- "tracing-web",
+ "tracing-wasm",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
@@ -1355,16 +1355,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "tracing-web"
-version = "0.1.2"
+name = "tracing-wasm"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ff5efc53ed5a7c4b99b3dd24fd10f41e7aa1b284a4e64ae9167d97e31afe124"
+checksum = "4575c663a174420fa2d78f4108ff68f65bf2fbb7dd89f33749b6e826b3626e07"
 dependencies = [
- "js-sys",
- "tracing-core",
+ "tracing",
  "tracing-subscriber",
  "wasm-bindgen",
- "web-sys",
 ]
 
 [[package]]
