@@ -13,12 +13,19 @@ struct State {
     queue: wgpu::Queue,
     config: wgpu::SurfaceConfiguration,
     size: winit::dpi::PhysicalSize<u32>,
+    clear_color: wgpu::Color,
 }
 
 impl State {
     // Creating some of the wgpu types requires async
     // code
     async fn new(window: &Window) -> Self {
+        let clear_color = wgpu::Color {
+            r: 0.1,
+            g: 0.2,
+            b: 0.3,
+            a: 1.0,
+        };
         let size = window.inner_size();
 
         // The instance is a handle to our GPU
@@ -68,6 +75,7 @@ impl State {
             queue,
             config,
             size,
+            clear_color,
         }
     }
 
@@ -85,6 +93,24 @@ impl State {
     }
 
     fn input(&mut self, event: &WindowEvent) -> bool {
+        match event {
+            WindowEvent::CursorMoved {
+                device_id,
+                position,
+                modifiers,
+            } => {
+                let r = position.x / self.size.width as f64;
+                let g =
+                    position.y / self.size.height as f64;
+                self.clear_color = wgpu::Color {
+                    r: r,
+                    g: g,
+                    b: 0.3,
+                    a: 1.0,
+                }
+            }
+            _ => {}
+        }
         false
     }
 
@@ -113,12 +139,7 @@ impl State {
                             resolve_target: None,
                             ops: wgpu::Operations {
                                 load: wgpu::LoadOp::Clear(
-                                    wgpu::Color {
-                                        r: 0.1,
-                                        g: 0.2,
-                                        b: 0.3,
-                                        a: 1.0,
-                                    },
+                                    self.clear_color,
                                 ),
                                 store: true,
                             },
